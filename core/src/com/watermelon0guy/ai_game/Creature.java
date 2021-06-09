@@ -20,7 +20,7 @@ public class Creature implements Comparable<Creature>{
     public NeuralNetwork brain;
     public float[] inputsOfNN = new float[6];
 
-    Creature()
+    public Creature()
     {
         joints = new ArrayList<JointClass>();
         bones = new ArrayList<BoneClass>();

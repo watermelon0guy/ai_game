@@ -1,26 +1,22 @@
 package com.watermelon0guy.ai_game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.watermelon0guy.ai_game.screens.*;
 
 public class aiGame extends Game {
-
 	GameScreen gameScreen;
+	CreatureConstructorScreen constructorScreen;
 
 
 	@Override
 	public void create() {
-		gameScreen = new GameScreen();
-		setScreen(gameScreen);
+		constructorScreen = new CreatureConstructorScreen(this);
+		setScreen(constructorScreen);
 	}
 
 	@Override
 	public void dispose() {
-		gameScreen.dispose();
+
 	}
 
 	@Override

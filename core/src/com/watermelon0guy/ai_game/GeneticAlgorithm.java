@@ -16,12 +16,12 @@ public class GeneticAlgorithm {
     public Creature creature;
     public Vector2 spawnPoint;
     int currentGeneration = 0;
-    public int countOfAgentsInOnePopulation = 20;
+    public int countOfAgentsInOnePopulation = 15;
     public int mutationTimes = 5;
     public float mutantChance = 0.1f;
     public int countOfAlive = 20;
     public float timeForOnePopulation = 20;
-    public float currentTimeForOnePopulation = 10;
+    public float currentTimeForOnePopulation = 20;
     public ArrayList<Creature> currentPopulation = new ArrayList<Creature>();
     public ArrayList<Creature> nextPopulation = new ArrayList<Creature>();
 
@@ -30,7 +30,7 @@ public class GeneticAlgorithm {
     public World world;
     Random random;
 
-    GeneticAlgorithm(World world)
+    public GeneticAlgorithm(World world)
     {
         random = new Random();
         this.world = world;
@@ -54,7 +54,6 @@ public class GeneticAlgorithm {
          {
              currentTimeForOnePopulation = timeForOnePopulation;
              Repopulate();
-
          }
      }
 
@@ -75,13 +74,12 @@ public class GeneticAlgorithm {
             nextPopulation.get(0).brain = NetCopy(currentPopulation.get(0).brain);
         }
 
-
-        ArrayList<com.watermelon0guy.ai_game.ai.NeuralNetwork> parents = TournamentChoice(currentPopulation);
+        ArrayList<NeuralNetwork> parents = TournamentChoice(currentPopulation);
 
         for (int i = 0; i < parents.size() - 1; i+=2)
         {
-            ArrayList<com.watermelon0guy.ai_game.ai.NeuralNetwork> childs = Crossover(parents.get(i), parents.get(i + 1));
-            nextPopulation.add(hardcodeCreature());
+            ArrayList<NeuralNetwork> childs = Crossover(parents.get(i), parents.get(i + 1));
+            nextPopulation.add(0,hardcodeCreature());
             nextPopulation.get(0).brain = NetCopy(childs.get(0));
 
             if(MathUtils.random() < mutantChance)
@@ -118,10 +116,10 @@ public class GeneticAlgorithm {
         nextPopulation.clear();
     }
 
-    private com.watermelon0guy.ai_game.ai.NeuralNetwork Mutate(com.watermelon0guy.ai_game.ai.NeuralNetwork experimental, int mutationTimes) {
+    private NeuralNetwork Mutate(NeuralNetwork experimental, int mutationTimes) {
         for (int i = 0; i < mutationTimes; i++)
         {
-            int chance = random.nextInt(4+1);
+            int chance = random.nextInt(4+1);///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             switch (chance)
             {
                 case 0:
@@ -152,11 +150,11 @@ public class GeneticAlgorithm {
         return experimental;
     }
 
-    private ArrayList<com.watermelon0guy.ai_game.ai.NeuralNetwork> Crossover(com.watermelon0guy.ai_game.ai.NeuralNetwork parent1, com.watermelon0guy.ai_game.ai.NeuralNetwork parent2) {
-        com.watermelon0guy.ai_game.ai.NeuralNetwork childNet1;
-        com.watermelon0guy.ai_game.ai.NeuralNetwork childNet2;
-        com.watermelon0guy.ai_game.ai.NeuralNetwork p1Net = parent1;
-        com.watermelon0guy.ai_game.ai.NeuralNetwork p2Net = parent2;
+    private ArrayList<NeuralNetwork> Crossover(NeuralNetwork parent1, NeuralNetwork parent2) {
+        NeuralNetwork childNet1;
+        NeuralNetwork childNet2;
+        NeuralNetwork p1Net = parent1;
+        NeuralNetwork p2Net = parent2;
         childNet1 = NetCopy(p1Net);
         childNet2 = NetCopy(p2Net);
 
@@ -209,15 +207,15 @@ public class GeneticAlgorithm {
         }
 
 
-        ArrayList<com.watermelon0guy.ai_game.ai.NeuralNetwork> childs = new ArrayList<com.watermelon0guy.ai_game.ai.NeuralNetwork>();
+        ArrayList<NeuralNetwork> childs = new ArrayList<NeuralNetwork>();
         childs.add(childNet1);
         childs.add(childNet2);
 
         return childs;
     }
 
-    private ArrayList<com.watermelon0guy.ai_game.ai.NeuralNetwork> TournamentChoice(ArrayList<Creature> population) {
-        ArrayList<com.watermelon0guy.ai_game.ai.NeuralNetwork> newNets = new ArrayList<com.watermelon0guy.ai_game.ai.NeuralNetwork>();
+    private ArrayList<NeuralNetwork> TournamentChoice(ArrayList<Creature> population) {
+        ArrayList<NeuralNetwork> newNets = new ArrayList<NeuralNetwork>();
         while (newNets.size() < countOfAgentsInOnePopulation - 4)
         {
             Creature first = population.get(random.nextInt(population.size()));
@@ -308,7 +306,7 @@ public class GeneticAlgorithm {
         MuscleClass m4 = creature.createMuscle(b4,b5,world);
         MuscleClass m5 = creature.createMuscle(b5,b6,world);
 
-        creature.brain = new com.watermelon0guy.ai_game.ai.NeuralNetwork(6,5,1, creature.muscles.size());
+        creature.brain = new NeuralNetwork(6,5,1, creature.muscles.size());
         return creature;
     }
 
@@ -342,9 +340,9 @@ public class GeneticAlgorithm {
         return randomNum;
     }
 
-    NeuralNetwork NetCopy(com.watermelon0guy.ai_game.ai.NeuralNetwork net)
+    NeuralNetwork NetCopy(NeuralNetwork net)
     {
-        com.watermelon0guy.ai_game.ai.NeuralNetwork copy = new com.watermelon0guy.ai_game.ai.NeuralNetwork(6,5,1, creature.muscles.size());
+        NeuralNetwork copy = new NeuralNetwork(6,5,1, creature.muscles.size());
         copy.number = net.number;
         for (int i = 0; i < net.weightsInputLayer.length; i++)
         {

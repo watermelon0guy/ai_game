@@ -18,7 +18,7 @@ public class Floor {
     float width;
     float height;
     FixtureDef fixture = new FixtureDef();
-    Floor(float xCord, float yCord,float width, float height, World world)
+    public Floor(float xCord, float yCord, float width, float height, World world)
     {
         x = xCord;
         y = yCord;

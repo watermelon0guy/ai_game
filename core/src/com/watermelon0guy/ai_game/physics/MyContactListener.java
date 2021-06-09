@@ -1,10 +1,12 @@
-package com.watermelon0guy.ai_game;
+package com.watermelon0guy.ai_game.physics;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.watermelon0guy.ai_game.Floor;
+import com.watermelon0guy.ai_game.JointClass;
 
 public class MyContactListener implements ContactListener {
     @Override

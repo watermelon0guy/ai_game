@@ -10,14 +10,14 @@ public class BackgroundGrid {
     float lineWidth = 0.03f;
     Color color = Color.LIGHT_GRAY;
 
-    BackgroundGrid(int width,int height, float lineWidth,Color color)
+    public BackgroundGrid(int width,int height, float lineWidth,Color color)
     {
         this.width = width;
         this.height = height;
         this.lineWidth = lineWidth;
         this.color = color;
     }
-    BackgroundGrid() {}
+    public BackgroundGrid() {}
 
     public void render(ShapeDrawer shapeDrawer)
     {

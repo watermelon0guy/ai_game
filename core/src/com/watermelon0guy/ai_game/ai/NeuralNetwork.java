@@ -34,7 +34,7 @@ public class NeuralNetwork {
         RandomiseValue();
     }
 
-    NeuralNetwork(){}
+    public NeuralNetwork(){}
 
     //public kindsOfActivationFunction kindOfActivationFunction = kindsOfActivationFunction.TanH;
     public enum kindsOfActivationFunction
@@ -45,7 +45,7 @@ public class NeuralNetwork {
 
     public void RandomiseValue()
     {
-        number = random.nextInt(10000)+1;
+        //number = random.nextInt(10000)+1;
 
         for (int i = 0; i < inputLayer; i++)//случайно выбираем веса входного слоя
         {
@@ -173,7 +173,6 @@ public class NeuralNetwork {
     public static float randInt(float min, float max, Random rand)
     {
         float randomNum = min + rand.nextFloat() * (max - min);
-        System.out.println(randomNum);
         return randomNum;
     }
     ///////////////////////////////////////////////////////////////////
