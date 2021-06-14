@@ -1,0 +1,36 @@
+
+uiskin.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+grey_button_down_13
+  rotate: false
+  xy: 1, 308
+  size: 49, 45
+  split: 7, 7, 6, 11
+  orig: 49, 45
+  offset: 0, 0
+  index: -1
+grey_button_up_12
+  rotate: false
+  xy: 1, 257
+  size: 49, 49
+  split: 7, 7, 6, 11
+  orig: 49, 49
+  offset: 0, 0
+  index: -1
+subdex
+  rotate: false
+  xy: 1, 355
+  size: 506, 150
+  orig: 506, 150
+  offset: 0, 0
+  index: -1
+blue_button06
+  rotate: false
+  xy: 52, 304
+  size: 49, 49
+  orig: 49, 49
+  offset: 0, 0
+  index: -1

@@ -5,29 +5,29 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 
+import java.util.ArrayList;
+
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class MuscleClass {
     Creature parent;
-    BoneClass boneFirst;
-    BoneClass boneSecond;
+    public ArrayList<BoneClass> connectedBones = new ArrayList<>();
     float length;
     float damping = 0.7f;
     float frequency = 15;
-    DistanceJointDef springDef;
     DistanceJoint spring;
 
-    MuscleClass(BoneClass bone1,BoneClass bone2)
+    public MuscleClass(BoneClass bone1,BoneClass bone2,World world, Creature creature, DistanceJointDef springDef)
     {
-        boneFirst = bone1;
-        boneSecond = bone2;
-        springDef = new DistanceJointDef();
+        connectedBones.add(bone1);
+        connectedBones.add(bone2);
         springDef.bodyA = bone1.pBody;
         springDef.bodyB = bone2.pBody;
-        springDef.length = bone1.pBody.getPosition().dst(bone2.pBody.getPosition());
-        length = bone1.pBody.getPosition().dst(bone2.pBody.getPosition());
-        springDef.dampingRatio = damping;
-        springDef.frequencyHz = frequency;
+        parent = creature;
+        creature.muscles.add(this);
+        bone1.connectedMuscles.add(this);
+        bone2.connectedMuscles.add(this);
+        init(world,springDef);
     }
 
     public void setLength(float length)
@@ -35,13 +35,35 @@ public class MuscleClass {
         spring.setLength(this.length * length * 2);
     }
 
-    public void init(World world)
+    public void rebuild(World world, DistanceJointDef springDef)
     {
+        init(world,springDef);
+    }
+
+    public void init(World world, DistanceJointDef springDef)
+    {
+        if (spring != null) world.destroyJoint(spring);
         spring = (DistanceJoint)world.createJoint(springDef);
+        length = connectedBones.get(0).pBody.getPosition().dst(connectedBones.get(1).pBody.getPosition());
+        springDef.length = length;
+    }
+
+    public void delete(World world)
+    {
+        world.destroyJoint(spring);
+        parent.muscles.remove(this);
+        connectedBones.get(0).connectedJoints.remove(this);
+        connectedBones.get(1).connectedJoints.remove(this);
+
     }
 
     public void render(ShapeDrawer shapeDrawer)
     {
-        shapeDrawer.line(boneFirst.pBody.getPosition().x,boneFirst.pBody.getPosition().y,boneSecond.pBody.getPosition().x,boneSecond.pBody.getPosition().y,0.07f,Color.RED,Color.RED);
+        if (connectedBones.size()<2) return;
+        shapeDrawer.line(connectedBones.get(0).pBody.getPosition().x,
+                connectedBones.get(0).pBody.getPosition().y,
+                connectedBones.get(1).pBody.getPosition().x,
+                connectedBones.get(1).pBody.getPosition().y,
+                0.07f,Color.RED,Color.RED);
     }
 }

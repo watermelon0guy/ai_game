@@ -1,0 +1,34 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	subdex: {
+		file: subdex.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	grey: {
+		r: 0.47
+		g: 0.47
+		b: 0.47
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	white: {
+		up: grey_button_up_12
+		down: grey_button_down_13
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	white: {
+		parent: white
+		font: subdex
+		fontColor: black
+	}
+}
+}

@@ -248,65 +248,6 @@ public class GeneticAlgorithm {
     public Creature hardcodeCreature()
     {
         creature = new Creature();
-//        JointClass j1 = creature.createJoint(new Vector2(1,1),world);
-//        JointClass j2 = creature.createJoint(new Vector2(2,2),world);
-//        JointClass j3 = creature.createJoint(new Vector2(1,2),world);
-//        j1.addNeighbour(j2);
-//        j2.addNeighbour(j1);
-//        j2.addNeighbour(j3);
-//        j3.addNeighbour(j2);
-//        creature.createSkeleton(world);
-//        creature.createMuscle(creature.bones.get(0),creature.bones.get(1),world);
-        JointClass j1 = creature.createJoint(new Vector2(4/3f,0.2f),world);
-        JointClass j2 = creature.createJoint(new Vector2(0.3f,0.3f),world);
-        JointClass j3 = creature.createJoint(new Vector2(4/3f,2/3f),world);
-        JointClass j4 = creature.createJoint(new Vector2(2/3f,4/4f),world);
-        JointClass j5 = creature.createJoint(new Vector2(7/3f,4/3f),world);
-        JointClass j6 = creature.createJoint(new Vector2(6/3f,2/3f),world);
-        JointClass j7 = creature.createJoint(new Vector2(9/3f,0.3f),world);
-        j1.addNeighbour(j2);
-        j2.addNeighbour(j1);
-        j2.addNeighbour(j3);
-        j3.addNeighbour(j2);
-        j3.addNeighbour(j4);
-        j4.addNeighbour(j3);
-        j4.addNeighbour(j5);
-        j5.addNeighbour(j6);
-        j6.addNeighbour(j7);
-        j7.addNeighbour(j6);
-        //creature.createSkeleton(world);
-        BoneClass b1 = creature.createBone(j1,j2,world);
-        j1.connectedBones.add(b1);
-        j2.connectedBones.add(b1);
-        BoneClass b2 = creature.createBone(j2,j3,world);
-        j2.connectedBones.add(b2);
-        j3.connectedBones.add(b2);
-        BoneClass b3 = creature.createBone(j3,j4,world);
-        j3.connectedBones.add(b3);
-        j4.connectedBones.add(b3);
-        BoneClass b4 = creature.createBone(j4,j5,world);
-        j4.connectedBones.add(b4);
-        j5.connectedBones.add(b4);
-        BoneClass b5 = creature.createBone(j5,j6,world);
-        j5.connectedBones.add(b5);
-        j6.connectedBones.add(b5);
-        BoneClass b6 = creature.createBone(j6,j7,world);
-        j6.connectedBones.add(b6);
-        j7.connectedBones.add(b6);
-        j1.connectJointToBones(world);
-        j2.connectJointToBones(world);
-        j3.connectJointToBones(world);
-        j4.connectJointToBones(world);
-        j5.connectJointToBones(world);
-        j6.connectJointToBones(world);
-        j7.connectJointToBones(world);
-        MuscleClass m1 = creature.createMuscle(b1,b2,world);
-        MuscleClass m2 = creature.createMuscle(b2,b3,world);
-        MuscleClass m3 = creature.createMuscle(b3,b4,world);
-        MuscleClass m4 = creature.createMuscle(b4,b5,world);
-        MuscleClass m5 = creature.createMuscle(b5,b6,world);
-
-        creature.brain = new NeuralNetwork(6,5,1, creature.muscles.size());
         return creature;
     }
 

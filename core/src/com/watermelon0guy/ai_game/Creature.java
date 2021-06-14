@@ -13,9 +13,9 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public class Creature implements Comparable<Creature>{
     public float fitness;
     public int pointOfContacts;
-    ArrayList<BoneClass> bones;
-    ArrayList<JointClass> joints;
-    ArrayList<MuscleClass> muscles;
+    public ArrayList<BoneClass> bones;
+    public ArrayList<JointClass> joints;
+    public ArrayList<MuscleClass> muscles;
 
     public NeuralNetwork brain;
     public float[] inputsOfNN = new float[6];
@@ -44,19 +44,6 @@ public class Creature implements Comparable<Creature>{
         }
     }
 
-    public void createSkeleton(World world)
-    {
-        for(JointClass mainJoint:joints)
-        {
-            for(JointClass neighbour: mainJoint.floatingJoints)
-            {
-                createBone(mainJoint,neighbour,world);
-                mainJoint.connectJointToBones(world);
-                neighbour.floatingJoints.remove(mainJoint);
-                neighbour.connectJointToBones(world);
-            }
-        }
-    }
 
     public void createMuscleStructure(World world)
     {
@@ -65,42 +52,10 @@ public class Creature implements Comparable<Creature>{
 
         }
     }
-    //создаём кость по координатам дрвух суставов
-    public BoneClass createBone(JointClass joint1, JointClass joint2,World world)
-    {
-        float length = joint1.pos().dst(joint2.pos());
-        BoneClass bone = new BoneClass(length);
-        bone.parent = this;
-        Vector2 direction = joint2.pos().sub(joint1.pos());
-        Vector2 position = joint1.pos().add(direction.scl(0.5f));
-        bone.init(position, direction.angleRad(),world);
-        bones.add(bone);
-        bone.joints.add(joint1);
-        bone.joints.add(joint2);
-        joint1.connectedBones.add(bone);
-        joint2.connectedBones.add(bone);
-        return bone;
-    }
 
-    public JointClass createJoint(Vector2 pos, World world)
-    {
-        JointClass joint = new JointClass();
-        joint.parent = this;
-        joints.add(joint);
-        joint.init(pos,world);
-        return joint;
-    }
 
-    public MuscleClass createMuscle(BoneClass bone1,BoneClass bone2,World world)
-    {
-        MuscleClass muscle = new MuscleClass(bone1,bone2);
-        muscle.parent = this;
-        muscles.add(muscle);
-        bone1.connectedMuscles.add(muscle);
-        bone2.connectedMuscles.add(muscle);
-        muscle.init(world);
-        return muscle;
-    }
+
+
 
     public  void muscleControl(float[] commands)
     {
