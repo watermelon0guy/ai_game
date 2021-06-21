@@ -10,7 +10,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class aiGame extends Game {
 	GameScreen gameScreen;
-	CreatureConstructorScreen constructorScreen;
+	public CreatureConstructorScreen constructorScreen;
 	public Box2DDebugRenderer b2dr;
 	public SpriteBatch batch;
 	public ShapeDrawer shapeDrawer;

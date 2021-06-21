@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
+import java.util.Random;
+
 public final class utils {
 
 
@@ -34,5 +36,10 @@ public final class utils {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
         return bodyDef;
+    }
+    public static float randFloat(float min, float max, Random rand)
+    {
+        float randomNum = min + rand.nextFloat() * (max - min);
+        return randomNum;
     }
 }

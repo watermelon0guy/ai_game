@@ -39,7 +39,8 @@ import static com.watermelon0guy.ai_game.StaticVars.*;
 
 public class CreatureConstructorScreen implements Screen {
 
-    Game mainClass;
+    aiGame mainClass;
+    GameScreen gameScreen;
     Stage stage;
     Skin skin;
     public Camera camera;
@@ -65,7 +66,7 @@ public class CreatureConstructorScreen implements Screen {
     public FixtureDef fixture;
 
 
-    TextButton buttonJoint, buttonBone, buttonMuscle, buttonMove, buttonDelete;
+    TextButton buttonJoint, buttonBone, buttonMuscle, buttonMove, buttonDelete, buttonEvo;
 
     public CreatureConstructorScreen(final aiGame mainClass)
     {
@@ -98,7 +99,6 @@ public class CreatureConstructorScreen implements Screen {
         creature = new Creature();
     }
 
-
     @Override
     public void show() {
         stage.clear();
@@ -128,7 +128,7 @@ public class CreatureConstructorScreen implements Screen {
         stage.draw();
 
         update(delta);
-        b2dr.render(world,camera.combined);
+        //b2dr.render(world,camera.combined);
     }
 
     private void initButtons() {
@@ -136,7 +136,7 @@ public class CreatureConstructorScreen implements Screen {
         Table table = new Table();
         table.align(Align.bottomLeft);
         table.pad(10);
-        table.setDebug(true);
+        //table.setDebug(true);
         buttonJoint = new TextButton("Joint",skin,"white");
         buttonJoint.getLabel().setFontScale(2);
         buttonBone = new TextButton("Bone",skin,"white");
@@ -147,6 +147,10 @@ public class CreatureConstructorScreen implements Screen {
         buttonMove.getLabel().setFontScale(2);
         buttonDelete = new TextButton("Delete",skin,"white");
         buttonDelete.getLabel().setFontScale(2);
+
+        buttonEvo = new TextButton("EVO",skin,"white");
+        buttonEvo.getLabel().setFontScale(2);
+
         table.add(buttonJoint).align(Align.left).padBottom(15).padTop(15).width(uiViewport.getScreenWidth()/9).height(uiViewport.getScreenHeight()/10);
         table.row();
         table.add(buttonBone).align(Align.left).padBottom(15).padTop(15).width(uiViewport.getScreenWidth()/9).height(uiViewport.getScreenHeight()/10);
@@ -156,6 +160,8 @@ public class CreatureConstructorScreen implements Screen {
         table.add(buttonMove).align(Align.left).padBottom(15).padTop(15).width(uiViewport.getScreenWidth()/9).height(uiViewport.getScreenHeight()/10);
         table.row();
         table.add(buttonDelete).align(Align.left).padBottom(15).padTop(15).width(uiViewport.getScreenWidth()/9).height(uiViewport.getScreenHeight()/10);
+        table.row();
+        table.add(buttonEvo).align(Align.left).padBottom(15).padTop(15).width(uiViewport.getScreenWidth()/9).height(uiViewport.getScreenHeight()/10);
         table.setTransform(true);
         //table.setFillParent(true);
         stage.addActor(table);
@@ -195,6 +201,14 @@ public class CreatureConstructorScreen implements Screen {
                 cIM.status = ConstructorInputManager.constructorStatus.Delete;
             }
         });
+
+        buttonEvo.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameScreen = new GameScreen(mainClass.constructorScreen);
+                mainClass.setScreen(gameScreen);
+            }
+        });
     }
 
     private void update(float delta) {
@@ -224,6 +238,6 @@ public class CreatureConstructorScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        gameScreen.dispose();
     }
 }

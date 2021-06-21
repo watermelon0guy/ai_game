@@ -24,6 +24,8 @@ public class JointClass {
     float friction = 1;
     public ArrayList<BoneClass> connectedBones = new ArrayList<BoneClass>();
 
+    public int id;
+
     //конструктор
     public JointClass(Vector2 pos,World world, Creature creature, BodyDef bodyDef, CircleShape shape, FixtureDef fixture)
     {
@@ -32,9 +34,6 @@ public class JointClass {
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
-        //настройка коллайдера
-
-        //физ свойства
 
         fixture.shape = shape;
         fixture.friction = friction;
@@ -45,6 +44,17 @@ public class JointClass {
         pBody = world.createBody(bodyDef);
         pBody.createFixture(fixture).setUserData(this);
         pBody.setTransform(pos,0);
+        creature.findBottomLeftJoint();
+    }
+
+    public void createUniqueId()
+    {
+        id = parent.getUniqueId();
+    }
+
+    public void setId(JointClass jointClass)
+    {
+        id = jointClass.id;
     }
 
     public void delete(World world) {

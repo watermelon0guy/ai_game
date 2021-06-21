@@ -20,8 +20,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.watermelon0guy.ai_game.BackgroundGrid;
 import com.watermelon0guy.ai_game.Floor;
 import com.watermelon0guy.ai_game.GeneticAlgorithm;
+import com.watermelon0guy.ai_game.StaticVars;
 import com.watermelon0guy.ai_game.physics.MyContactListener;
 import com.watermelon0guy.ai_game.utils;
+
+import org.graalvm.compiler.asm.sparc.SPARCAssembler;
 
 import java.util.ArrayList;
 
@@ -38,6 +41,7 @@ public class GameScreen implements Screen
     SpriteBatch batch;
     ShapeDrawer shapeDrawer;
     BackgroundGrid bgg = new BackgroundGrid();
+    CreatureConstructorScreen CCS;
 
     Box2DDebugRenderer b2dr;
     //endregion
@@ -48,10 +52,11 @@ public class GameScreen implements Screen
     GeneticAlgorithm geneticAlgorithm;
 
     Floor floor;
-    public GameScreen()
+    public GameScreen(CreatureConstructorScreen CCS)
     {
         TextureRegion region = utils.createWhitePixel();//пиксель которым рисует shape drawer
 
+        this.CCS = CCS;
         world = new World(gravity,false);
         world.setContactListener(new MyContactListener());
         //region Инициализация графона
@@ -67,7 +72,7 @@ public class GameScreen implements Screen
 
         floor = new Floor(0,0-2.5f,100,5,world);//бегать то по чему то надо
 
-        geneticAlgorithm = new GeneticAlgorithm(world);
+        geneticAlgorithm = new GeneticAlgorithm(world, CCS);
         geneticAlgorithm.spawnPopulation();
     }
 
@@ -83,18 +88,23 @@ public class GameScreen implements Screen
         geneticAlgorithm.render(shapeDrawer);
         batch.end();
 
-
         stage.act();
         stage.draw();
 
         update();
     }
 
+    float v = StaticVars.geneticTimeStep;
 
     public void update()
     {
-        geneticAlgorithm.act();
-        world.step(1/40f,4,4);
+        v -= Gdx.graphics.getDeltaTime();
+        if (v<=0)
+        {
+            geneticAlgorithm.act();
+            v = StaticVars.geneticTimeStep;
+        }
+        world.step(1/50f,4,4);
     }
 
     @Override

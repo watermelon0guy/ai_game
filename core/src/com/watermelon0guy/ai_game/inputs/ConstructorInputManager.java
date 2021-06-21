@@ -136,7 +136,7 @@ public class ConstructorInputManager implements InputProcessor {
     public boolean jointUp(int screenX, int screenY, int pointer, int button)
     {
         System.out.println("Joint Mode: up");
-        new JointClass(utils.screenToWorldPosV2(CCS.camera, screenX,screenY), CCS.world, CCS.creature, CCS.bodyDefJoint, CCS.circleShape, CCS.fixture);
+        new JointClass(utils.screenToWorldPosV2(CCS.camera, screenX,screenY), CCS.world, CCS.creature, CCS.bodyDefJoint, CCS.circleShape, CCS.fixture).createUniqueId();
         return true;
     }
     //endregion
@@ -174,7 +174,7 @@ public class ConstructorInputManager implements InputProcessor {
                     for (BoneClass bone: CCS.creature.bones) {
                         if (bone.connectedJoints.contains(joint1) && (bone.connectedJoints.contains(joint2))) return false;
                     }
-                    BoneClass bone = new BoneClass(joint1,joint2, CCS.world, CCS.creature, CCS.bodyDefBone,CCS.shape,CCS.fixture);
+                    new BoneClass(joint1,joint2, CCS.world, CCS.creature, CCS.bodyDefBone,CCS.shape,CCS.fixture).createUniqueId();
                     return false;
                 }
                 return true;
@@ -211,17 +211,15 @@ public class ConstructorInputManager implements InputProcessor {
         CCS.world.QueryAABB(new QueryCallback() {
             @Override
             public boolean reportFixture(Fixture fixture) {
-                if (fixture.getUserData() instanceof BoneClass & bone1 != null)
+                if (fixture.getUserData() instanceof BoneClass && bone1 != null && fixture.getUserData() != bone1)
                 {
                     bone2 = (BoneClass)fixture.getUserData();
                     for (MuscleClass muscle: CCS.creature.muscles) {
                         if (muscle.connectedBones.contains(bone1) && (muscle.connectedBones.contains(bone2))) return false;
                     }
-                    new MuscleClass(bone1,bone2, CCS.world, CCS.creature, CCS.springDef);
+                    new MuscleClass(bone1,bone2, CCS.world, CCS.creature, CCS.springDef).createUniqueId();
                     return false;
                 }
-                bone1 = null;
-                bone2 = null;
                 return true;
             }
         },worldPos.x-margin,worldPos.y-margin,worldPos.x+margin,worldPos.y+margin);

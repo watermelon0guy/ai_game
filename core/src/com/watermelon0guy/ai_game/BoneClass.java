@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.watermelon0guy.ai_game.StaticVars.*;
 
 import java.util.ArrayList;
 
@@ -23,11 +24,13 @@ public class BoneClass {
     float thickness=0.08f;
     Vector2 pos(){return pBody.getPosition();}
     float angle(){return pBody.getAngle();}
-    float density = 500;
+    float density = StaticVars.densityBone;
     float friction = 1;
     //endregion
     public ArrayList<MuscleClass> connectedMuscles = new ArrayList<MuscleClass>();
     public ArrayList<JointClass> connectedJoints = new ArrayList<JointClass>();
+
+    public int id;
 
     //конструктор
     public BoneClass(JointClass joint1, JointClass joint2,World world,Creature creature, BodyDef bodyDef, PolygonShape shape, FixtureDef fixture)
@@ -54,6 +57,8 @@ public class BoneClass {
         pBody = world.createBody(bodyDef);
         init(joint1,joint2,fixture,shape);
         connectBoneToJoints(world);
+
+        id = creature.getUniqueId();
     }
 
     public void rebuild(FixtureDef fixture,PolygonShape shape)
@@ -85,7 +90,7 @@ public class BoneClass {
         for (JointClass joint: connectedJoints) {
             jointDef.bodyA = joint.pBody;
             jointDef.bodyB = pBody;
-            jointDef.localAnchorB.set(pBody.getLocalPoint(pos()));
+            jointDef.localAnchorB.set(pBody.getLocalPoint(joint.pos()));
             world.createJoint(jointDef);
         }
     }
@@ -101,8 +106,10 @@ public class BoneClass {
 
         for(MuscleClass muscle: connectedMuscles)
         {
-            muscle.connectedBones.remove(this);
+            //muscle.connectedBones.remove(this);
+            muscle.delete(world);
         }
+        connectedMuscles.clear();
     }
 
     public void render(ShapeDrawer shapeDrawer)
@@ -110,5 +117,15 @@ public class BoneClass {
         if(connectedJoints.size() == 0) return;
         //shapeDrawer.filledRectangle(pos().x-0.67f, pos().y, length, thickness, angle(), boneColor, boneColor);
         shapeDrawer.line(connectedJoints.get(0).pos().x, connectedJoints.get(0).pos().y, connectedJoints.get(1).pos().x, connectedJoints.get(1).pos().y,thickness,boneColor,boneColor);
+    }
+
+    public void createUniqueId()
+    {
+        id = parent.getUniqueId();
+    }
+
+    public void setId(BoneClass boneClass)
+    {
+        id = boneClass.id;
     }
 }
